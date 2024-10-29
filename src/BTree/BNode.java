@@ -6,7 +6,7 @@ public class BNode<T> {
     private BNode left;
     private BNode right;
 
-    //Nós em geral
+    //Nohs em geral
     public BNode(T data, BNode parent) {
         this.data = data;
         this.parent = parent;
@@ -18,7 +18,7 @@ public class BNode<T> {
         this(data,null);
     }
     
-   
+    // Getters e Setters
     public T getData() {
         return data;
     }
@@ -51,14 +51,6 @@ public class BNode<T> {
         this.right = right;
     }
     
-    public boolean isRoot(){
-        return parent == null;
-    }
-    
-    public boolean isLeaf(){
-        return left == right;
-    }
-    
     public int getDegree(){
         int degree = 0;
         if(left != null) ++degree;
@@ -85,6 +77,16 @@ public class BNode<T> {
                 ? 1 + left.getHeight()
                 : 1 + right.getHeight();
         return h;
+    }
+
+    //isRoot() --> Retorna se eh a raiz da arvore
+    public boolean isRoot(){
+        return parent == null;
+    }
+    
+    //isLeaf() --> Retorna se eh um noh folha
+    public boolean isLeaf(){
+        return left == right;
     }
 
     @Override
