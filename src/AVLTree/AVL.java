@@ -12,148 +12,161 @@ public class AVL<T> extends BST<T> {
     public AVL() {
     }
     
-    // Método para obter o fator de balanceamento de um nó
-    int getBalance(BNode<Integer> n) {
-        if (n == null)
-            return 0;
-        return n.getLeft().getHeight() - n.getRight().getHeight();
-    }
-
-    // Função para realizar uma rotação à direita
-    BNode<Integer> rightRotate(BNode<Integer> y) {
-        BNode<Integer> x = (AVLNode)y.getLeft();
-        BNode<Integer> T2 = (AVLNode)x.getRight();
-
-        // Realizando a rotação
-        x.setRight(y);
-        y.setLeft(T2);
-
-        // Retornando a nova raiz
-        return x;
-    }
-
-    // Função para realizar uma rotação à esquerda
-    BNode<Integer> leftRotate(BNode<Integer> x) {
-        BNode<Integer> y = (AVLNode)x.getRight();
-        BNode<Integer> T2 = (AVLNode)y.getLeft();
-
-        // Realizando a rotação
-        y.setLeft(x);
-        x.setRight(T2);
-
-        // Retornando a nova raiz
-        return y;
-    }
-
-    // Método para inserir um nó na árvore AVL
-    BNode<Integer> insert(BNode<Integer> node, int key) {
-        // Passo 1: Inserir como em uma BST normal
+    // 'node' é o nó que deseja-se encontrar o fator de balanceamento.
+    // Os valores válidos para preservar a AVL são: [-1, 0, 1]
+    // -1 -> Subárvore esquerda é maior.
+    //  0 -> Árvore esquerda tem mesmo tamanho da árvore direita.
+    //  1 -> Subárvore direita é maior.
+    int getBalance(BNode<Integer> node) {
         if (node == null)
-            return new AVLNode<>(key);
+            return 0;
 
-        if (key < node.getData())
-           node.setLeft(insert((BNode<Integer>)node.getLeft(), key));
-        else if (key > node.getData())
-            node.setRight(insert((BNode<Integer>)node.getRight(), key));
-        else // Chaves duplicadas não são permitidas
+        int leftHeight = node.getLeft().getHeight();
+        int rightHeight = node.getRight().getHeight();
+
+        return leftHeight - rightHeight;
+    }
+
+    // 'node' é o nó a ser rotacionado.
+    // 'alpha' é raiz de uma subárvore.
+    // 'newRoot' é a nova raiz da subárvore já rotacionada. 
+    BNode<Integer> rotateRight(BNode<Integer> node) {
+        BNode<Integer> newRoot = node.getLeft();
+        BNode<Integer> alpha = newRoot.getRight();
+
+        newRoot.setRight(node);
+        node.setLeft(alpha);
+
+        return newRoot;
+    }
+
+    // 'node' é o nó a ser rotacionado.
+    // 'alpha' é raiz de uma subárvore.
+    // 'newRoot' é a nova raiz da subárvore já rotacionada. 
+    BNode<Integer> rotateLeft(BNode<Integer> node) {
+        BNode<Integer> newRoot = node.getRight();
+        BNode<Integer> alpha = newRoot.getLeft();
+
+        newRoot.setLeft(node);
+        node.setRight(alpha);
+
+        return newRoot;
+    }
+
+    // 'node' é o nó na árvore, inicialmente o root até virar folha.
+    // 'valueToInsert' é o novo valor a ser inserido.
+    // Retorna o nó inserido.
+    BNode<Integer> insert(BNode<Integer> node, int valueToInsert) {
+        if (node == null)
+            return new AVLNode<>(valueToInsert);
+        
+        BNode<Integer> left = node.getLeft();
+        BNode<Integer> right = node.getRight();
+        int nodeData = node.getData();
+
+        if (valueToInsert < nodeData){
+          BNode<Integer> newLeft = insert(left, valueToInsert);
+          node.setLeft(newLeft);
+
+        } else if (valueToInsert > nodeData){
+            BNode<Integer> newRight = insert(right, valueToInsert);
+            node.setRight(newRight);
+
+        } else 
             return node;
 
-        // Passo 3: Verificar o fator de balanceamento deste nó
         int balance = getBalance(node);
+        int leftValue = node.getLeft().getData();
+        int rightValue = node.getRight().getData();
 
-        // Caso 1: Desbalanceamento à esquerda-esquerda
-        if (balance > 1 && key < (Integer)node.getLeft().getData())
-            return rightRotate(node);
+        if (balance > 1 ){
+          if (valueToInsert < leftValue)
+            return rotateRight(node);
 
-        // Caso 2: Desbalanceamento à direita-direita
-        if (balance < -1 && key > (Integer)node.getRight().getData())
-            return leftRotate(node);
-
-        // Caso 3: Desbalanceamento à esquerda-direita
-        if (balance > 1 && key > (Integer)node.getLeft().getData()) {
-            node.setLeft(leftRotate((BNode<Integer>)node.getLeft()));
-            return rightRotate(node);
+          if (valueToInsert > leftValue){
+            BNode<Integer> rotatedLeft = rotateLeft(left);
+            node.setLeft(rotatedLeft);
+            return rotateRight(node);
+          }
         }
-
-        // Caso 4: Desbalanceamento à direita-esquerda
-        if (balance < -1 && key < (Integer)node.getRight().getData()) {
-            node.setRight(rightRotate((BNode<Integer>) node.getRight()));
-            return leftRotate(node);
+        
+        if (balance < -1){
+          if (valueToInsert > rightValue)
+            return rotateleft(node);
+          
+          if (valueToInsert < rightValue){
+            BNode<Integer> rotatedRight = rotateRight(right);
+            node.setRight(rotatedRight);
+            return rotateLeft(node);
+          }
         }
-
-        // Retornar o ponteiro do nó (inalterado)
+        
         return node;
     }
     
-     // Método para remover um nó da árvore AVL
-    BNode<Integer> deleteNode(BNode root, int key) {
-        // Passo 1: Realizar a remoção como em uma BST normal
+    // 'root' é a raiz da árvore AVL a remover um valor.
+    // 'valueToRemove' é a chave do nó a ser removido.
+    // retorna a raiz após a inserção e ajustes para preservar as propriedades de AVL.
+    BNode<Integer> deleteNode(BNode root, int valueToRemove) {
         if (root == null)
             return root;
 
-        // Se o valor a ser removido for menor que o valor da raiz
-        if (key < (int)root.getData())
-            root.setLeft(deleteNode(root.getLeft(), key));
-        // Se o valor a ser removido for maior que o valor da raiz
-        else if (key > (int)root.getData())
-            root.setRight(deleteNode(root.getRight(), key));
-        // Se o valor for igual ao valor da raiz, este é o nó a ser removido
-        else {
-            // Nó com apenas um filho ou sem filhos
-            if ((root.getLeft() == null) || (root.getRight() == null)) {
+        int rootValue = root.getData();
+        BNode<Integer> left = root.getLeft();
+        BNode<Integer> right = root.getRight();
+
+        if (valueToRemove < rootValue){
+            BNode<Integer> newLeft = deleteNode(left, valueToRemove);
+            root.setLeft(newLeft);
+        } else if (valueToRemove > rootValue){
+            BNode<Integer> newRight = deleteNode(right, valueToRemove);
+            root.setRight(newRight);
+        } else {
+            if (root.getDegree() < 2) {
                 BNode<Integer> temp;
-                if (root.getLeft() == null)
-                    temp = root.getRight();
+                if (left == null)
+                    temp = right;
                 else
-                    temp = root.getLeft();
+                    temp = left;
 
-                // Caso 1: Sem filhos
-                if (temp == null) {
-                    root = null;
-                }
-                // Caso 2: Um filho
-                else
-                    root = temp; // Copiando o conteúdo do filho não vazio
-            }
-            else {
-                // Nó com dois filhos: obter o sucessor inorder (menor na subárvore direita)
+                root = temp;
+
+            } else {
                 BNode temp = getSucessor(root);
+                int tempValue = temp.getData();
 
-                // Copiar o valor do sucessor inorder para este nó
-                root.setData(temp.getData());
+                root.setData(tempValue);
 
-                // Remover o sucessor inorder
-                root.setRight(deleteNode(root.getRight(),(Integer)temp.getData()));
+                BNode newRight = deleteNode(right, tempValue);
+                root.setRight(newRight);
             }
         }
 
-        // Se a árvore tinha apenas um nó, então retorne
         if (root == null)
             return root;
 
-        // Passo 3: Verificar o fator de balanceamento do nó atual
         int balance = getBalance(root);
+        
+        if (balance > 1) {
+            if (getBalance(left) >= 0) 
+              return rotateRight(root);
 
-        // Caso 1: Desbalanceamento à esquerda-esquerda
-        if (balance > 1 && getBalance(root.getLeft()) >= 0)
-            return rightRotate(root);
-
-        // Caso 2: Desbalanceamento à esquerda-direita
-        if (balance > 1 && getBalance(root.getLeft()) < 0) {
-            root.setLeft(leftRotate(root.getLeft()));
-            return rightRotate(root);
+            else {
+              BNode<Integer> rotatedLeft = rotateLeft(left);
+              root.setLeft(rotatedLeft);
+              return rotateRight(root);
+            }
         }
-
-        // Caso 3: Desbalanceamento à direita-direita
-        if (balance < -1 && getBalance(root.getRight()) <= 0)
-            return leftRotate(root);
-
-        // Caso 4: Desbalanceamento à direita-esquerda
-        if (balance < -1 && getBalance(root.getRight()) > 0) {
-            root.setRight(rightRotate(root.getRight()));
-            return leftRotate(root);
+        
+        if (balance < -1) {
+          if (getBalance(right)) <= 0 
+            return rotateLeft(root);
+          else {
+            BNode<Integer> rotatedRight = rotateRight(right);
+            root.setRight(rotatedRight);
+            return rotateLeft(root);
+          }
         }
-
-        return root;
+    return root;
     }
 }
