@@ -6,15 +6,17 @@ import java.util.Queue;
 public class BTree<T> {
     private BNode<T> root;
 
+    //Arvore com pelo menos a raiz
     public BTree(BNode<T> root) {
         this.root = root;
     }
 
-    //arvore vaiza
+    //arvore vazia
     public BTree() {
         this(null);
     }
     
+    //Getters e Setters
     public BNode getRoot() {
         return root;
     }
@@ -29,14 +31,6 @@ public class BTree<T> {
      
     private int getDegree(BNode<T> root){
         if(root == null || root.isLeaf()) return 0;
-//        else if (root.getDegree() == 2) return 2;
-//        else {
-//            BNode<T> left = root.getLeft();
-//            BNode<T> right = root.getRight();
-//            return (getDegree(left) >= getDegree(right)) 
-//                    ? left.getDegree()
-//                    : right.getDegree();
-//        }
         else return Math.max(root.getDegree(),
                              Math.max(getDegree(root.getLeft()),
                                       getDegree(root.getRight())));
@@ -51,6 +45,10 @@ public class BTree<T> {
     
     
     //Percursos
+
+    /*Em ordem*/
+
+    //Funcao recursiva
     private String inOrderTraversal(BNode<T> root){
         if(root == null) return "";
         else return "" + inOrderTraversal(root.getLeft()) +
@@ -59,10 +57,14 @@ public class BTree<T> {
         
     }
     
+    //Funcao chamada pelo usuario
     public String inOrderTraversal(){
         return inOrderTraversal(root);
     }
-    
+
+    /*Pre-ordem*/
+
+    //Funcao recursiva
     private String preOrderTraversal(BNode<T> root){
         if(root == null) return "";
         else return "" + root.getData() +
@@ -70,10 +72,14 @@ public class BTree<T> {
                     "" + preOrderTraversal(root.getRight());
     }
     
+    //Funcao chamada pelo usuario
     public String preOrderTraversal(){
         return preOrderTraversal(root);
     }
     
+    /*Pos-ordem*/
+
+    //Funcao recursiva
     private String postOrderTraversal(BNode<T> root){
         if(root == null) return "";
         else return "" + postOrderTraversal(root.getLeft()) +
@@ -81,10 +87,12 @@ public class BTree<T> {
                     "" + root.getData();
     }
     
+    //Funcao chamada pelo usuario
     public String postOrderTraversal(){
         return postOrderTraversal(root);
     }
     
+    /*Por nivel*/
    public void levelOrderTraversal(){
       Queue<BNode> q = new LinkedList<>();
       q.add(root);
