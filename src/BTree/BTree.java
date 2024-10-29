@@ -31,9 +31,11 @@ public class BTree<T> {
      
     private int getDegree(BNode<T> root){
         if(root == null || root.isLeaf()) return 0;
-        else return Math.max(root.getDegree(),
-                             Math.max(getDegree(root.getLeft()),
-                                      getDegree(root.getRight())));
+        int leftDegree = getDegree(root.getLeft());
+        int rightDegree = getDegree(root.getRight());
+        int biggerDegree = Math.max(leftDegree,rightDegree);
+
+        return Math.max(root.getDegree(),biggerDegree);
     }
     public int getDegree(){
         return getDegree(root);
