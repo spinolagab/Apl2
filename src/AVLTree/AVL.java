@@ -76,8 +76,8 @@ public class AVL<T> extends BST<T> {
             return node;
 
         int balance = getBalance(node);
-        int leftValue = node.getLeft().getData();
-        int rightValue = node.getRight().getData();
+        int leftValue = (Integer)node.getLeft().getData();
+        int rightValue = (Integer)node.getRight().getData();
 
         if (balance > 1 ){
           if (valueToInsert < leftValue)
@@ -92,7 +92,7 @@ public class AVL<T> extends BST<T> {
         
         if (balance < -1){
           if (valueToInsert > rightValue)
-            return rotateleft(node);
+            return rotateLeft(node);
           
           if (valueToInsert < rightValue){
             BNode<Integer> rotatedRight = rotateRight(right);
@@ -111,7 +111,7 @@ public class AVL<T> extends BST<T> {
         if (root == null)
             return root;
 
-        int rootValue = root.getData();
+        int rootValue = (Integer)root.getData();
         BNode<Integer> left = root.getLeft();
         BNode<Integer> right = root.getRight();
 
@@ -133,7 +133,7 @@ public class AVL<T> extends BST<T> {
 
             } else {
                 BNode temp = getSucessor(root);
-                int tempValue = temp.getData();
+                int tempValue = (Integer)temp.getData();
 
                 root.setData(tempValue);
 
@@ -159,7 +159,7 @@ public class AVL<T> extends BST<T> {
         }
         
         if (balance < -1) {
-          if (getBalance(right)) <= 0 
+          if (getBalance(right) <= 0)
             return rotateLeft(root);
           else {
             BNode<Integer> rotatedRight = rotateRight(right);
