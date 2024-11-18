@@ -3,25 +3,25 @@ package BTree;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BTree<T> {
-    private BNode<T> root;
+public class Tree {
+    private Node root;
 
     //Arvore com pelo menos a raiz
-    public BTree(BNode<T> root) {
+    public Tree(Node root) {
         this.root = root;
     }
 
     //arvore vazia
-    public BTree() {
+    public Tree() {
         this(null);
     }
     
     //Getters e Setters
-    public BNode getRoot() {
+    public Node getRoot() {
         return root;
     }
 
-    public void setRoot(BNode<T> root) {
+    public void setRoot(Node root) {
         this.root = root;
     }
     
@@ -29,7 +29,7 @@ public class BTree<T> {
         return root == null;
     }
      
-    private int getDegree(BNode<T> root){
+    private int getDegree(Node root){
         if(root == null || root.isLeaf()) return 0;
         int leftDegree = getDegree(root.getLeft());
         int rightDegree = getDegree(root.getRight());
@@ -51,7 +51,7 @@ public class BTree<T> {
     /*Em ordem*/
 
     //Funcao recursiva
-    private String inOrderTraversal(BNode<T> root){
+    private String inOrderTraversal(Node root){
         if(root == null) return "";
         else return "" + inOrderTraversal(root.getLeft()) +
                     " " + root.getData() +
@@ -67,7 +67,7 @@ public class BTree<T> {
     /*Pre-ordem*/
 
     //Funcao recursiva
-    private String preOrderTraversal(BNode<T> root){
+    private String preOrderTraversal(Node root){
         if(root == null) return "";
         else return "" + root.getData() +
                     "" + preOrderTraversal(root.getLeft()) +
@@ -82,7 +82,7 @@ public class BTree<T> {
     /*Pos-ordem*/
 
     //Funcao recursiva
-    private String postOrderTraversal(BNode<T> root){
+    private String postOrderTraversal(Node root){
         if(root == null) return "";
         else return "" + postOrderTraversal(root.getLeft()) +
                     "" + postOrderTraversal(root.getRight()) +
@@ -96,7 +96,7 @@ public class BTree<T> {
     
     /*Por nivel*/
    public void levelOrderTraversal(){
-      Queue<BNode> q = new LinkedList<>();
+      Queue<Node> q = new LinkedList<>();
       q.add(root);
       while(!q.isEmpty()) {
           if(q.peek().getLeft() != null )q.add(q.peek().getLeft());

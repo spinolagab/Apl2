@@ -1,16 +1,16 @@
 package AVLTree;
 
-import BTree.BNode;
+import BTree.Node;
 
-public class AVLNode<T> extends BNode<T> {
+public class AVLNode extends Node {
    
     private int fb;
-    public AVLNode(T data, BNode parent) {
+    public AVLNode(double data, Node parent) {
         super(data, parent);
         fb = 0;
     }
 
-    public AVLNode(T data) {
+    public AVLNode(double data) {
         super(data);
         fb = 0;
     }

@@ -1,11 +1,11 @@
 package AVLTree;
 
-import BTree.BNode;
+
 import BTree.BST;
 
-public class AVL<T> extends BST<T> {
+public class AVL extends BST {
 
-    public AVL(BNode<Integer> root) {
+    public AVL(AVLNode root) {
         super(root);
     }
 
@@ -17,22 +17,22 @@ public class AVL<T> extends BST<T> {
     // -1 -> Subárvore esquerda é maior.
     //  0 -> Árvore esquerda tem mesmo tamanho da árvore direita.
     //  1 -> Subárvore direita é maior.
-    int getBalance(BNode<Integer> node) {
+    int getBalance(AVLNode node) {
         if (node == null)
             return 0;
 
-        int leftHeight = node.getLeft().getHeight();
-        int rightHeight = node.getRight().getHeight();
+        int leftHeight = node.getLeft() != null ? node.getLeft().getHeight() : -1;
+        int rightHeight = node.getRight() != null ? node.getRight().getHeight() : -1;
 
-        return leftHeight - rightHeight;
+        return rightHeight - leftHeight;
     }
 
     // 'node' é o nó a ser rotacionado.
     // 'alpha' é raiz de uma subárvore.
     // 'newRoot' é a nova raiz da subárvore já rotacionada. 
-    BNode<Integer> rotateRight(BNode<Integer> node) {
-        BNode<Integer> newRoot = node.getLeft();
-        BNode<Integer> alpha = newRoot.getRight();
+    AVLNode rotateRight(AVLNode node) {
+        AVLNode newRoot = (AVLNode) node.getLeft();
+        AVLNode alpha = (AVLNode) newRoot.getRight();
 
         newRoot.setRight(node);
         node.setLeft(alpha);
@@ -43,9 +43,9 @@ public class AVL<T> extends BST<T> {
     // 'node' é o nó a ser rotacionado.
     // 'alpha' é raiz de uma subárvore.
     // 'newRoot' é a nova raiz da subárvore já rotacionada. 
-    BNode<Integer> rotateLeft(BNode<Integer> node) {
-        BNode<Integer> newRoot = node.getRight();
-        BNode<Integer> alpha = newRoot.getLeft();
+    AVLNode rotateLeft(AVLNode node) {
+        AVLNode newRoot =(AVLNode) node.getRight();
+        AVLNode alpha = (AVLNode) newRoot.getLeft();
 
         newRoot.setLeft(node);
         node.setRight(alpha);
@@ -56,74 +56,81 @@ public class AVL<T> extends BST<T> {
     // 'node' é o nó na árvore, inicialmente o root até virar folha.
     // 'valueToInsert' é o novo valor a ser inserido.
     // Retorna o nó inserido.
-    BNode<Integer> insert(BNode<Integer> node, int valueToInsert) {
-        if (node == null)
-            return new AVLNode<>(valueToInsert);
-        
-        BNode<Integer> left = node.getLeft();
-        BNode<Integer> right = node.getRight();
-        int nodeData = node.getData();
+    private AVLNode insert(AVLNode node, double valueToInsert) {
+        if (node == null){
+            if(isEmpty()) setRoot(new AVLNode(valueToInsert));
+            return (AVLNode) getRoot();
+        }
 
-        if (valueToInsert < nodeData){
-          BNode<Integer> newLeft = insert(left, valueToInsert);
+        AVLNode left = (AVLNode) node.getLeft();
+        AVLNode right = (AVLNode) node.getRight();
+        double nodeData = node.getData();
+
+        if (valueToInsert <  nodeData){
+          AVLNode newLeft = insert(left, valueToInsert);
           node.setLeft(newLeft);
 
-        } else if (valueToInsert > nodeData){
-            BNode<Integer> newRight = insert(right, valueToInsert);
+        } else if (valueToInsert >  nodeData){
+            AVLNode newRight = insert(right, valueToInsert);
             node.setRight(newRight);
 
         } else 
             return node;
 
         int balance = getBalance(node);
-        int leftValue = (Integer)node.getLeft().getData();
-        int rightValue = (Integer)node.getRight().getData();
+        double leftValue = node.getLeft().getData();
+        double rightValue = node.getRight().getData();
 
         if (balance > 1 ){
-          if (valueToInsert < leftValue)
-            return rotateRight(node);
+          if (getBalance(right) < 0){ //RL
+              AVLNode rotatedRight = rotateRight(right);
+              node.setRight(rotatedRight);
+              return rotateLeft(node);
+          }
 
-          if (valueToInsert > leftValue){
-            BNode<Integer> rotatedLeft = rotateLeft(left);
-            node.setLeft(rotatedLeft);
-            return rotateRight(node);
-          }
+          if (valueToInsert > leftValue)
+            return rotateLeft(node); //LL
+
         }
-        
+
         if (balance < -1){
-          if (valueToInsert > rightValue)
-            return rotateLeft(node);
-          
-          if (valueToInsert < rightValue){
-            BNode<Integer> rotatedRight = rotateRight(right);
-            node.setRight(rotatedRight);
-            return rotateLeft(node);
+          if (getBalance(left) > 0){ //LR
+              AVLNode rotatedLeft = rotateLeft(left);
+              node.setLeft(rotatedLeft);
+              return rotateRight(node);
           }
+
+          if (valueToInsert < rightValue)//RR
+              return rotateRight(node);
         }
         
         return node;
+    }
+
+    public AVLNode insertBalanced (double valueToInsert){
+        return insert((AVLNode) this.getRoot(), valueToInsert);
     }
     
     // 'root' é a raiz da árvore AVL a remover um valor.
     // 'valueToRemove' é a chave do nó a ser removido.
     // retorna a raiz após a inserção e ajustes para preservar as propriedades de AVL.
-    BNode<Integer> deleteNode(BNode root, int valueToRemove) {
+    private AVLNode deleteNode(AVLNode root, double valueToRemove) {
         if (root == null)
             return root;
 
-        int rootValue = (Integer)root.getData();
-        BNode<Integer> left = root.getLeft();
-        BNode<Integer> right = root.getRight();
+        double rootValue = root.getData();
+        AVLNode left = (AVLNode) root.getLeft();
+        AVLNode right = (AVLNode) root.getRight();
 
         if (valueToRemove < rootValue){
-            BNode<Integer> newLeft = deleteNode(left, valueToRemove);
+            AVLNode newLeft = deleteNode(left, valueToRemove);
             root.setLeft(newLeft);
         } else if (valueToRemove > rootValue){
-            BNode<Integer> newRight = deleteNode(right, valueToRemove);
+            AVLNode newRight = deleteNode(right, valueToRemove);
             root.setRight(newRight);
         } else {
             if (root.getDegree() < 2) {
-                BNode<Integer> temp;
+                AVLNode temp;
                 if (left == null)
                     temp = right;
                 else
@@ -132,12 +139,12 @@ public class AVL<T> extends BST<T> {
                 root = temp;
 
             } else {
-                BNode temp = getSucessor(root);
-                int tempValue = (Integer)temp.getData();
+                AVLNode temp = (AVLNode) getSucessor(root);
+                double tempValue = temp.getData();
 
                 root.setData(tempValue);
 
-                BNode newRight = deleteNode(right, tempValue);
+                AVLNode newRight = deleteNode(right, tempValue);
                 root.setRight(newRight);
             }
         }
@@ -152,7 +159,7 @@ public class AVL<T> extends BST<T> {
               return rotateRight(root);
 
             else {
-              BNode<Integer> rotatedLeft = rotateLeft(left);
+              AVLNode rotatedLeft = rotateLeft(left);
               root.setLeft(rotatedLeft);
               return rotateRight(root);
             }
@@ -162,11 +169,15 @@ public class AVL<T> extends BST<T> {
           if (getBalance(right) <= 0)
             return rotateLeft(root);
           else {
-            BNode<Integer> rotatedRight = rotateRight(right);
+            AVLNode rotatedRight = rotateRight(right);
             root.setRight(rotatedRight);
             return rotateLeft(root);
           }
         }
     return root;
+    }
+
+    public AVLNode deleteBalanced(double valueToRemove) {
+        return deleteNode((AVLNode) this.getRoot(), valueToRemove);
     }
 }

@@ -1,53 +1,53 @@
 package BTree;
 
-public class BNode<T> {
-    private T data;
-    private BNode parent;
-    private BNode left;
-    private BNode right;
+public class Node {
+    private double data;
+    private Node parent;
+    private Node left;
+    private Node right;
 
     //Nohs em geral
-    public BNode(T data, BNode parent) {
+    public Node(double data, Node parent) {
         this.data = data;
         this.parent = parent;
         right = left = null;
     }
 
     //Raiz
-    public BNode(T data) {
+    public Node(double data) {
         this(data,null);
     }
     
     // Getters e Setters
-    public T getData() {
+    public double getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(double data) {
         this.data = data;
     }
 
-    public BNode getParent() {
+    public Node getParent() {
         return parent;
     }
 
-    public void setParent(BNode parent) {
+    public void setParent(Node parent) {
         this.parent = parent;
     }
 
-    public BNode getLeft() {
+    public Node getLeft() {
         return left;
     }
 
-    public void setLeft(BNode left) {
+    public void setLeft(Node left) {
         this.left = left;
     }
 
-    public BNode getRight() {
+    public Node getRight() {
         return right;
     }
 
-    public void setRight(BNode right) {
+    public void setRight(Node right) {
         this.right = right;
     }
     
@@ -64,19 +64,9 @@ public class BNode<T> {
     }
     
     public int getHeight(){
-        int h;
-        
-        //Folha (Sem Filhos)
-        if(isLeaf()) h = 0; 
-        //Um filho pela direita
-        else if(left == null && right != null) h = 1 + right.getHeight();
-        //Um filho pela esquerda
-        else if(right == null && left != null) h = 1 + left.getHeight();
-        //Dois filhos
-        else h = (left.getHeight() > right.getHeight())
-                ? 1 + left.getHeight()
-                : 1 + right.getHeight();
-        return h;
+       if(isLeaf()) return 0;
+       return 1 + Math.max(left == null ? -1 : left.getHeight(),
+                right == null ? -1 : right.getHeight());
     }
 
     //isRoot() --> Retorna se eh a raiz da arvore
@@ -91,7 +81,7 @@ public class BNode<T> {
 
     @Override
     public String toString() {
-        return "Data = " + data 
+        return "Data = " + data
                 + ", parent = " + ((parent == null)? "null" : parent.getData())
                 + ", left = " + ((left == null)? "null" : left.getData()) 
                 + ", right = " + ((right == null)? "null" : right.getData());
