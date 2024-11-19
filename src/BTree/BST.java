@@ -16,7 +16,7 @@ public class BST extends Tree {
 
     // 'root' é a raiz da árvore
     // 'key' é o valor do node
-    private Node insert(Node root, PIBData pibNode) {
+    private Node insertAsAgro(Node root, PIBData pibNode) {
 
        if (root == null) {
            Node newNode = new Node(pibNode);
@@ -28,23 +28,62 @@ public class BST extends Tree {
        double rootData = root.getData().getAgropecuaria();
 
        if (pibNode.getAgropecuaria() <  rootData){
-          Node newLeft = insert(left, pibNode);
+          Node newLeft = insertAsAgro(left, pibNode);
           root.setLeft(newLeft);
-          
 
         } else if (pibNode.getAgropecuaria() >  rootData){
-            Node newRight = insert(right, pibNode);
+            Node newRight = insertAsAgro(right, pibNode);
             root.setRight(newRight);
-            
 
-        } 
-            return root;
+        }
+        return root;
 
     }
 
+    // 'root' é a raiz da árvore
+    // 'key' é o valor do node
+    private Node insertAsDate(Node root, PIBData pibNode) {
+
+        if (root == null) {
+            Node newNode = new Node(pibNode);
+            if(isEmpty()) setRoot(newNode);
+            return newNode;
+        }
+        Node left = root.getLeft();
+        Node right = root.getRight();
+        double rootYear = root.getData().getAno();
+
+        if (pibNode.getAno() <  rootYear){
+            Node newLeft = insertAsDate(left, pibNode);
+            root.setLeft(newLeft);
+
+
+        } else if (pibNode.getAno() >  rootYear){
+            Node newRight = insertAsDate(right, pibNode);
+            root.setRight(newRight);
+
+
+        } else{
+            int rootMonth = root.getData().getMes();
+
+            if(pibNode.getMes() <  rootMonth){
+                Node newLeft = insertAsDate(left, pibNode);
+                root.setLeft(newLeft);
+            } else if (pibNode.getMes() >  rootMonth){
+                Node newRight = insertAsDate(right, pibNode);
+                root.setRight(newRight);
+            } else return root;
+        }
+        return root;
+    }
+
     // 'pibNode' é o valor do node
-    public Node insert(PIBData pibNode) {
-        return insert(this.getRoot(), pibNode);
+    public Node insertAsAgro(PIBData pibNode) {
+        return insertAsAgro(this.getRoot(), pibNode);
+    }
+
+    public Node insertAsDate(PIBData pibNode) {
+        return insertAsDate(this.getRoot(), pibNode);
     }
 
     // 'root' é a raiz da árvore

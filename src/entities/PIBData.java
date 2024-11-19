@@ -2,21 +2,21 @@ package entities;
 
 public class PIBData {
 
-    private String mes;
+    private int mes;
     private Double ano;
     private Double agropecuaria;
 
-    public PIBData(String mes, Double ano, Double agropecuaria) {
+    public PIBData(int mes, Double ano, Double agropecuaria) {
         this.mes = mes;
         this.ano = ano;
         this.agropecuaria = agropecuaria;
     }
 
-    public String getMes() {
+    public int getMes() {
         return mes;
     }
 
-    public void setMes(String mes) {
+    public void setMes(int mes) {
         this.mes = mes;
     }
 
