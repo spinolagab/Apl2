@@ -17,17 +17,32 @@ public class BST extends Tree {
     private Node insert(Node root, double key) {
 
        if (root == null) {
-           root = new Node(key);
-           return root;
+           Node newNode = new Node(key);
+           if(isEmpty()) setRoot(newNode);
+           return newNode;
        }
-       if (key < root.getData()) root.setLeft(insert(root.getLeft(), key));
-       else if(key > root.getData()) root.setRight(insert(root.getRight(), key));
-       return root;
+       Node left = root.getLeft();
+       Node right = root.getRight();
+       double rootData = root.getData();
+
+       if (key <  rootData){
+          Node newLeft = insert(left, key);
+          root.setLeft(newLeft);
+          
+
+        } else if (key >  rootData){
+            Node newRight = insert(right, key);
+            root.setRight(newRight);
+            
+
+        } 
+            return root;
+
     }
 
     // 'key' é o valor do node
-    public void insert(double key) {
-        insert(this.getRoot(), key);
+    public Node insert(double key) {
+        return insert(this.getRoot(), key);
     }
 
     // 'root' é a raiz da árvore
