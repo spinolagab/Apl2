@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.PIBData;
+import java.nio.file.Paths;
 
 public class Program {
 
     public static void main(String[] args) {
 
-        String path = "C:\\Users\\Dell\\OneDrive - Grupo Lusofona Brasil\\Documentos\\Gabriel\\Mackenzie\\Quarto Semestre\\Estrutura de Dados 2\\Teste CSV\\08-2024_tabelas_PIB_mensal_Mensal04.csv";
+        String path = "./src/readCSV/08-2024_tabelas_PIB_mensal_Mensal04.csv";
 
         List<PIBData> list = new ArrayList<>();
 
