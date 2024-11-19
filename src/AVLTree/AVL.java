@@ -11,6 +11,10 @@ public class AVL extends BST {
 
     public AVL() {
     }
+
+    private boolean nodeIsRoot(AVLNode node){
+        return (AVLNode)getRoot() == node;
+    }
     
     // 'node' é o nó que deseja-se encontrar o fator de balanceamento.
     // Os valores válidos para preservar a AVL são: [-1, 0, 1]
@@ -37,7 +41,7 @@ public class AVL extends BST {
         newRoot.setRight(node);
         node.setLeft(alpha);
 
-        if(node.isRoot()) setRoot(newRoot); //erro
+        if(nodeIsRoot(node)) setRoot(newRoot);
         return newRoot;
     }
 
@@ -51,7 +55,7 @@ public class AVL extends BST {
         newRoot.setLeft(node);
         node.setRight(alpha);
 
-        if(node.isRoot()) setRoot(newRoot); //erro
+        if(nodeIsRoot(node)) setRoot(newRoot);
         return newRoot;
     }
 
@@ -154,26 +158,31 @@ public class AVL extends BST {
             return root;
 
         int balance = getBalance(root);
-        
-        if (balance > 1) {
-            if (getBalance(left) >= 0) 
-              return rotateRight(root);
 
-            else {
+        left = (AVLNode) root.getLeft();
+        right = (AVLNode) root.getRight();
+
+        if (balance > 1 ){
+          if (getBalance(right) < 0){ //RL
+              AVLNode rotatedRight = rotateRight(right);
+              root.setRight(rotatedRight);
+              return rotateLeft(root);
+          }
+
+          else
+            return rotateLeft(root); //LL
+
+        }
+
+        if (balance < -1){
+          if (getBalance(left) > 0){ //LR
               AVLNode rotatedLeft = rotateLeft(left);
               root.setLeft(rotatedLeft);
               return rotateRight(root);
-            }
-        }
-        
-        if (balance < -1) {
-          if (getBalance(right) <= 0)
-            return rotateLeft(root);
-          else {
-            AVLNode rotatedRight = rotateRight(right);
-            root.setRight(rotatedRight);
-            return rotateLeft(root);
           }
+
+         else //RR
+              return rotateRight(root);
         }
     return root;
     }
