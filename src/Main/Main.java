@@ -17,8 +17,9 @@ public class Main {
         System.out.println(avl.getRoot());
         avl.insertBalanced(21);
         System.out.println(avl.getRoot());
-        //System.out.println(avl.inOrderTraversal());
+        System.out.println("Antes de remover: " + avl.inOrderTraversal());
         avl.deleteBalanced(21);
         avl.deleteBalanced(20);
+        System.out.println("Depois: " + avl.inOrderTraversal());
     }
 }
