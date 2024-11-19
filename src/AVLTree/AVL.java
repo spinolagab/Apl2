@@ -37,6 +37,7 @@ public class AVL extends BST {
         newRoot.setRight(node);
         node.setLeft(alpha);
 
+        if(node.isRoot()) setRoot(newRoot); //erro
         return newRoot;
     }
 
@@ -50,6 +51,7 @@ public class AVL extends BST {
         newRoot.setLeft(node);
         node.setRight(alpha);
 
+        if(node.isRoot()) setRoot(newRoot); //erro
         return newRoot;
     }
 
@@ -58,8 +60,9 @@ public class AVL extends BST {
     // Retorna o nó inserido.
     private AVLNode insert(AVLNode node, double valueToInsert) {
         if (node == null){
-            if(isEmpty()) setRoot(new AVLNode(valueToInsert));
-            return (AVLNode) getRoot();
+            AVLNode newNode = new AVLNode(valueToInsert);
+            if(isEmpty()) setRoot(newNode);
+            return newNode;
         }
 
         AVLNode left = (AVLNode) node.getLeft();
@@ -78,8 +81,6 @@ public class AVL extends BST {
             return node;
 
         int balance = getBalance(node);
-        double leftValue = node.getLeft().getData();
-        double rightValue = node.getRight().getData();
 
         if (balance > 1 ){
           if (getBalance(right) < 0){ //RL
@@ -88,7 +89,7 @@ public class AVL extends BST {
               return rotateLeft(node);
           }
 
-          if (valueToInsert > leftValue)
+          else
             return rotateLeft(node); //LL
 
         }
@@ -100,7 +101,7 @@ public class AVL extends BST {
               return rotateRight(node);
           }
 
-          if (valueToInsert < rightValue)//RR
+         else //RR
               return rotateRight(node);
         }
         
