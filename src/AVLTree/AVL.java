@@ -2,6 +2,7 @@ package AVLTree;
 
 
 import BTree.BST;
+import entities.PIBData;
 
 public class AVL extends BST {
 
@@ -62,7 +63,7 @@ public class AVL extends BST {
     // 'node' é o nó na árvore, inicialmente o root até virar folha.
     // 'valueToInsert' é o novo valor a ser inserido.
     // Retorna o nó inserido.
-    private AVLNode insert(AVLNode node, double valueToInsert) {
+    private AVLNode insert(AVLNode node, PIBData valueToInsert) {
         if (node == null){
             AVLNode newNode = new AVLNode(valueToInsert);
             if(isEmpty()) setRoot(newNode);
@@ -71,13 +72,13 @@ public class AVL extends BST {
 
         AVLNode left = (AVLNode) node.getLeft();
         AVLNode right = (AVLNode) node.getRight();
-        double nodeData = node.getData();
+        double nodeData = node.getData().getAgropecuaria();
 
-        if (valueToInsert <  nodeData){
+        if (valueToInsert.getAgropecuaria() <  nodeData){
           AVLNode newLeft = insert(left, valueToInsert);
           node.setLeft(newLeft);
 
-        } else if (valueToInsert >  nodeData){
+        } else if (valueToInsert.getAgropecuaria() >  nodeData){
             AVLNode newRight = insert(right, valueToInsert);
             node.setRight(newRight);
 
@@ -112,7 +113,8 @@ public class AVL extends BST {
         return node;
     }
 
-    public AVLNode insertBalanced (double valueToInsert){
+    public AVLNode insertBalanced (PIBData valueToInsert){
+
         return insert((AVLNode) this.getRoot(), valueToInsert);
     }
     
@@ -123,7 +125,7 @@ public class AVL extends BST {
         if (root == null)
             return root;
 
-        double rootValue = root.getData();
+        double rootValue = root.getData().getAgropecuaria();
         AVLNode left = (AVLNode) root.getLeft();
         AVLNode right = (AVLNode) root.getRight();
 
@@ -145,11 +147,11 @@ public class AVL extends BST {
 
             } else {
                 AVLNode temp = (AVLNode) getSucessor(root);
-                double tempValue = temp.getData();
+                PIBData tempValue = temp.getData();
 
                 root.setData(tempValue);
 
-                AVLNode newRight = deleteNode(right, tempValue);
+                AVLNode newRight = deleteNode(right, tempValue.getAgropecuaria());
                 root.setRight(newRight);
             }
         }

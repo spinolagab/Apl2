@@ -1,16 +1,17 @@
 package AVLTree;
 
 import BTree.Node;
+import entities.PIBData;
 
 public class AVLNode extends Node {
    
     private int fb;
-    public AVLNode(double data, Node parent) {
+    public AVLNode(PIBData data, Node parent) {
         super(data, parent);
         fb = 0;
     }
 
-    public AVLNode(double data) {
+    public AVLNode(PIBData data) {
         super(data);
         fb = 0;
     }

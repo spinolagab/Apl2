@@ -1,29 +1,31 @@
 package BTree;
 
+import entities.PIBData;
+
 public class Node {
-    private double data;
+    private PIBData data;
     private Node parent;
     private Node left;
     private Node right;
 
     //Nohs em geral
-    public Node(double data, Node parent) {
+    public Node(PIBData data, Node parent) {
         this.data = data;
         this.parent = parent;
         right = left = null;
     }
 
     //Raiz
-    public Node(double data) {
+    public Node(PIBData data) {
         this(data,null);
     }
     
     // Getters e Setters
-    public double getData() {
+    public PIBData getData() {
         return data;
     }
 
-    public void setData(double data) {
+    public void setData(PIBData data) {
         this.data = data;
     }
 
@@ -84,7 +86,8 @@ public class Node {
         return "Data = " + data
                 + ", parent = " + ((parent == null)? "null" : parent.getData())
                 + ", left = " + ((left == null)? "null" : left.getData()) 
-                + ", right = " + ((right == null)? "null" : right.getData());
+                + ", right = " + ((right == null)? "null" : right.getData())
+                +"\n";
     }
     
 }

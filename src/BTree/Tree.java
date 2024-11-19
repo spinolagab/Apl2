@@ -1,5 +1,7 @@
 package BTree;
 
+import entities.PIBData;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -54,7 +56,7 @@ public class Tree {
     private String inOrderTraversal(Node root){
         if(root == null) return "";
         else return "" + inOrderTraversal(root.getLeft()) +
-                    " " + root.getData() +
+                    " " + root.getData().getAgropecuaria() +
                     " " + inOrderTraversal(root.getRight());
         
     }
@@ -94,15 +96,15 @@ public class Tree {
         return postOrderTraversal(root);
     }
     
-    /*Por nivel*/
-   public void levelOrderTraversal(){
-      Queue<Node> q = new LinkedList<>();
-      q.add(root);
-      while(!q.isEmpty()) {
-          if(q.peek().getLeft() != null )q.add(q.peek().getLeft());
-          if(q.peek().getRight() != null )q.add(q.peek().getRight());
-          System.out.print(q.poll().getData());
-   }
-  }
+//    /*Por nivel*/
+//   public void levelOrderTraversal(){
+//      Queue<Node> q = new LinkedList<>();
+//      q.add(root);
+//      while(!q.isEmpty()) {
+//          if(q.peek().getLeft() != null )q.add(q.peek().getLeft());
+//          if(q.peek().getRight() != null )q.add(q.peek().getRight());
+//          System.out.print(q.poll().getData());
+//   }
+//  }
     
 }
