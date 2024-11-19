@@ -44,8 +44,11 @@ public class Main {
             }
             System.out.println("Elementos no arquivo: " + list.size());
             System.out.println("Elementos inseridos: " + countEl);
-            System.out.println("Altura BST: " + bst.getHeight());
-            System.out.println("Altura AVL: " + avl.getHeight());
+            System.out.println("\nPara " + countEl + " elementos =");
+            System.out.println("Altura mínima = floor(log2(n)) = " + Math.floor(Math.log10(countEl)/Math.log10(2)));
+            System.out.println("Altura máxima = n-1: " + (countEl-1));
+            System.out.println("\nAltura da BST gerada: " + bst.getHeight());
+            System.out.println("Altura da AVL gerada: " + avl.getHeight());
 
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo CSV: " + e.getMessage());
