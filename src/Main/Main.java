@@ -4,22 +4,53 @@ import BTree.BST;
 import AVLTree.AVL;
 import entities.PIBData;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         AVL avl = new AVL();
-        avl.insertBalanced(new PIBData("1",2012.0,-0.12));
-        avl.insertBalanced(new PIBData("2",2012.0,-0.2012));
-        avl.insertBalanced(new PIBData("3",2012.0,-0.312));
-        avl.insertBalanced(new PIBData("4",2012.0,0.202));
-        avl.insertBalanced(new PIBData("4",2012.0,-0.30));
-        avl.insertBalanced(new PIBData("6",2012.0,0.4));
+        BST bst = new BST();
+        String path = "./src/readCSV/08-2024_tabelas_PIB_mensal_Mensal04.csv";
 
-        System.out.println("Antes de remover: " + avl.inOrderTraversal());
-        System.out.println("Removendo -0.12 e 0.202...");
-        avl.deleteBalanced(-0.12);
-        //System.out.println(avl.getRoot());
-        avl.deleteBalanced(0.202);
-        //System.out.println(avl.getRoot());
-        System.out.println("Depois: " + avl.inOrderTraversal());
+        List<PIBData> list = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+
+            String line = br.readLine(); // Lê o cabeçalho e ignora
+            line = br.readLine(); // Lê a primeira linha de dados
+            while (line != null) {
+                // Divide a linha em colunas
+                String[] vect = line.split(",");
+                String mes = vect[0];
+                Double ano = Double.parseDouble(vect[1]);
+                Double agropecuaria = Double.parseDouble(vect[2]);
+
+                // Cria um objeto PIBData com apenas os dados necessários e adiciona à lista
+                PIBData data = new PIBData(mes, ano, agropecuaria);
+                list.add(data);
+
+                line = br.readLine(); // Lê a próxima linha
+            }
+
+            int countEl = 0;
+            for (PIBData data : list) {
+                avl.insertBalanced(data);
+                bst.insert(data);
+                countEl++;
+            }
+            System.out.println("Elementos no arquivo: " + list.size());
+            System.out.println("Elementos inseridos: " + countEl);
+            System.out.println("Altura BST: " + bst.getHeight());
+            System.out.println("Altura AVL: " + avl.getHeight());
+
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo CSV: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro ao converter dados numéricos: " + e.getMessage());
+        }
     }
 }
