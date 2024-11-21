@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class Main {
     private static final HashMap<String, Integer> meses = new HashMap<>();
@@ -41,6 +42,7 @@ public class Main {
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 
+        //Lendo o arquivo
             String line = br.readLine(); // Lê o cabeçalho e ignora
             line = br.readLine(); // Lê a primeira linha de dados
             while (line != null) {
@@ -57,23 +59,77 @@ public class Main {
                 line = br.readLine(); // Lê a próxima linha
             }
 
-            int countEl = 0;
+            //Inserindo os elementos nas árvores cuja chave é o crescimento no setor agropecuário
             for (PIBData data : list) {
-                avlAgro.insertAsAgro(data);
-                avlDate.insertAsDate(data);
+                avlAgro.insertBalancedAsAgro(data);
                 bstAgro.insertAsAgro(data);
-                bstDate.insertAsDate(data);
-                countEl++;
+
             }
-            System.out.println("Elementos no arquivo: " + list.size());
-            System.out.println("Elementos inseridos: " + countEl);
-            System.out.println("\nPara " + countEl + " elementos:");
-            System.out.println("Altura mínima = floor(log2(n)) = " + Math.floor(Math.log10(countEl)/Math.log10(2)));
-            System.out.println("Altura máxima = n-1: " + (countEl-1));
+
+            //Embaralhando lista original
+            List<PIBData> subListA = list.subList(0, 87);
+            List<PIBData> subListB = list.subList(87, 174);
+            List<PIBData> subListC = list.subList(174, list.size());
+            List<PIBData> unsortedList = new ArrayList<>();
+
+            int unsortedListIdx = 0;
+            while(unsortedList.size() < list.size()) {
+                unsortedList.add(subListB.get(unsortedListIdx));
+                unsortedList.add(subListA.get(unsortedListIdx));
+                if(unsortedListIdx < 86)unsortedList.add(subListC.get(unsortedListIdx));
+                unsortedListIdx++;
+            }
+
+            //Inserindo valores nas árvores cuja chave é a data (mês e ano)
+            for (PIBData data : unsortedList) {
+                avlDate.insertBalancedAsDate(data);
+                bstDate.insertAsDate(data);
+            }
+
+            //Salvando médias anuais
+            TreeMap<Double,Double> averageDiffFromYears= new TreeMap<>();
+            double year = 2004.0;
+            while(year < 2024.0){
+                averageDiffFromYears.put(avlDate.getAverageFromYear(year) - avlDate.getAverageFromYear(year-1),year);
+                year++;
+            }
+
+
+            System.out.println("-----------INFORMAÇÕES INICIAIS-----------");
+            System.out.println("Elementos inseridos: " + unsortedList.size());
+
+            System.out.println("\nPara " + list.size() + " elementos:");
+            System.out.println("Altura mínima = floor(log2(n)) = " + Math.floor(Math.log10(list.size())/Math.log10(2)));
+            System.out.println("Altura máxima = n-1: " + (list.size()-1));
+
             System.out.println("\nAltura da BST de Agro gerada: " + bstAgro.getHeight());
             System.out.println("Altura da AVL de Agro gerada: " + avlAgro.getHeight());
+
             System.out.println("\nAltura da BST de Datas gerada: " + bstDate.getHeight());
             System.out.println("Altura da AVL de Datas gerada: " + avlDate.getHeight());
+
+            System.out.println("------------------------------------------\n");
+
+            System.out.println("-----------PERGUNTAS EXPLORATÓRIAS-----------");
+            //Questao 1. Descobrir maior média anual
+            System.out.println("1.Maior crescimento médio anual encontrado: (" +(averageDiffFromYears.firstEntry().getValue()-1) +" e "+averageDiffFromYears.firstEntry().getValue() + ") " + averageDiffFromYears.firstKey() );
+
+            //Questao 2. Descobrir menor média anual
+            System.out.println("2.Menor crescimento médio anual encontrado: (" +(averageDiffFromYears.lastEntry().getValue()-1) +" e "+averageDiffFromYears.lastEntry().getValue() + ") " + averageDiffFromYears.lastKey() );
+
+            //Questao 3. Descobrir valores discrepantes
+            double maxMonthDecrease = avlAgro.getMaxDecrease();
+            double yearFromMaxMonthDecrease = avlAgro.search(maxMonthDecrease).getData().getAno();
+            int monthFromMaxDecrease = avlAgro.search(maxMonthDecrease).getData().getMes();
+
+            double maxMonthIncrease = avlAgro.getMaxIncrease();
+            double yearFromMaxMonthIncrease = avlAgro.search(maxMonthIncrease).getData().getAno();
+            int monthFromMaxIncrease = avlAgro.search(maxMonthIncrease).getData().getMes();
+
+            System.out.println("3.Menor média mensal encontrada: (" +monthFromMaxDecrease +"/"+yearFromMaxMonthDecrease + ") " + maxMonthDecrease );
+            System.out.println("  Maior média mensal encontrada: (" +monthFromMaxIncrease +"/"+yearFromMaxMonthIncrease + ") " + maxMonthIncrease );
+
+            System.out.println("---------------------------------------------\n");
 
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo CSV: " + e.getMessage());
