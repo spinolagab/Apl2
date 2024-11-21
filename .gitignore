@@ -1,3 +1,6 @@
 ContandoFolhas.java
 Hanoi.java
 Testes.java
+.idea
+*.iml
+out
