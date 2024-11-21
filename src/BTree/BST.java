@@ -78,12 +78,12 @@ public class BST extends Tree {
     }
 
     // 'pibNode' é o valor do node
-    public Node insertAsAgro(PIBData pibNode) {
-        return insertAsAgro(this.getRoot(), pibNode);
+    public void insertAsAgro(PIBData pibNode) {
+        insertAsAgro(this.getRoot(), pibNode);
     }
 
-    public Node insertAsDate(PIBData pibNode) {
-        return insertAsDate(this.getRoot(), pibNode);
+    public  void insertAsDate(PIBData pibNode) {
+        insertAsDate(this.getRoot(), pibNode);
     }
 
     // 'root' é a raiz da árvore
@@ -130,6 +130,39 @@ public class BST extends Tree {
     // 'key' é o valor do node
     public Node search (double key) {
         return search(this.getRoot(), key);
+    }
+
+    //'root' é a raiz da sub-árvore
+    // 'year' é o ano procurado
+    // 'total' é o total acumulado
+    private double getTotalFromYear(Node root, double year) {
+        if(root == null) return 0.0;
+        if(year < root.getData().getAno()) return getTotalFromYear(root.getLeft(), year);
+        else if(year > root.getData().getAno()) return getTotalFromYear(root.getRight(),year);
+        else return root.getData().getAgropecuaria()
+                    + getTotalFromYear(root.getLeft(), year)
+                    + getTotalFromYear(root.getRight(),year);
+    }
+
+    //'year' é o ano que terá a média calculada
+    public double getAverageFromYear(double year) {
+        return getTotalFromYear(this.getRoot(), year) / 12.0;
+    }
+
+
+
+    public double getMaxDecrease(){
+       Node aux = getRoot();
+       while(aux.getLeft() != null) aux = aux.getLeft();
+       return aux.getData().getAgropecuaria();
+
+    }
+
+    public double getMaxIncrease(){
+        Node aux = getRoot();
+        while(aux.getRight() != null) aux = aux.getRight();
+        return aux.getData().getAgropecuaria();
+
     }
 
     // 'root' é a raiz da árvore

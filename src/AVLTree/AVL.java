@@ -182,6 +182,7 @@ public class AVL extends BST {
 
     public void insertBalancedAsDate (PIBData valueToInsert){
 
+        insertBalancedAsDate((AVLNode) this.getRoot(), valueToInsert);
     }
     
     // 'root' é a raiz da árvore AVL a remover um valor.
