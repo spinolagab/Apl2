@@ -96,7 +96,12 @@ public class Main {
 
 
             System.out.println("-----------INFORMAÇÕES INICIAIS-----------");
-            System.out.println("Elementos inseridos: " + unsortedList.size());
+            System.out.println("AVL para dados de agropecuária é uma BST? " + (avlAgro.isAgroBST() ? "SIM!" : "NÃO!"));
+            System.out.println("BST para dados de agropecuária é uma BST? " + (bstAgro.isAgroBST() ? "SIM!" : "NÃO!"));
+            System.out.println("AVL para dados de data(mês/ano) é uma BST? " + (avlDate.isDateBST() ? "SIM!" : "NÃO!"));
+            System.out.println("BST para dados de data(mês/ano) é uma BST? " + (bstDate.isDateBST() ? "SIM!" : "NÃO!"));
+
+            System.out.println("\nElementos inseridos: " + unsortedList.size());
 
             System.out.println("\nPara " + list.size() + " elementos:");
             System.out.println("Altura mínima = floor(log2(n)) = " + Math.floor(Math.log10(list.size())/Math.log10(2)));

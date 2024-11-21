@@ -166,16 +166,34 @@ public class BST extends Tree {
     }
 
     // 'root' é a raiz da árvore
-    private boolean isBST(Node root) {
+    private boolean isAgroBST(Node root) {
         if (root == null) return true;
         if ((root.getLeft() != null && root.getLeft().getData().getAgropecuaria() > root.getData().getAgropecuaria()) ||
            (root.getRight() != null && root.getRight().getData().getAgropecuaria() < root.getData().getAgropecuaria())) {
             return false; 
-        } else return isBST(root.getLeft()) && isBST(root.getRight());
+        } else return isAgroBST(root.getLeft()) && isAgroBST(root.getRight());
     }
 
-    public boolean isBST() {
-        return isBST(this.getRoot());
+    public boolean isAgroBST() {
+        return isAgroBST(this.getRoot());
     }
+    // 'root' é a raiz da árvore
+    private boolean isDateBST(Node root) {
+        if (root == null) return true;
+        if ((root.getLeft() != null
+                && root.getLeft().getData().getAno() > root.getData().getAno()
+                && root.getLeft().getData().getMes() > root.getData().getMes()) ||
+           (root.getRight() != null
+                   && root.getRight().getData().getAno() < root.getData().getAno()
+                   && root.getRight().getData().getMes() < root.getData().getMes())) {
+            return false;
+        } else
+            return isDateBST(root.getLeft()) && isDateBST(root.getRight());
+    }
+
+    public boolean isDateBST() {
+        return isDateBST(this.getRoot());
+    }
+
 
 }
