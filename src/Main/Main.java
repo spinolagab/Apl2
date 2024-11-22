@@ -134,6 +134,20 @@ public class Main {
             System.out.println("3.Menor média mensal encontrada: (" +monthFromMaxDecrease +"/"+yearFromMaxMonthDecrease + ") " + maxMonthDecrease );
             System.out.println("  Maior média mensal encontrada: (" +monthFromMaxIncrease +"/"+yearFromMaxMonthIncrease + ") " + maxMonthIncrease );
 
+            double average2017And2018 = avlDate.getAverageFromYear(2018) - avlDate.getAverageFromYear(2017);
+            double average2018And2019 = avlDate.getAverageFromYear(2019) - avlDate.getAverageFromYear(2018);
+            double average2020And2021 = avlDate.getAverageFromYear(2021) - avlDate.getAverageFromYear(2020);
+            double average2021And2022 = avlDate.getAverageFromYear(2022) - avlDate.getAverageFromYear(2021);
+
+            System.out.println("\n4.Analisando período pré-pandemia e pandemia.");
+            System.out.println("  Pré-Pandemia(2017-2019):");
+            System.out.println("   (2017 - 2018): " + average2017And2018);
+            System.out.println("   (2018 - 2019): " + average2018And2019);
+            System.out.println("Média do período: " + ((average2017And2018 + average2018And2019)/2));
+            System.out.println("\n  Pandemia(2020-2022):");
+            System.out.println("   (2020 - 2021): " + average2020And2021);
+            System.out.println("   (2021 - 2022): " + average2021And2022);
+            System.out.println("Média do período: " + ((average2020And2021 + average2021And2022)/2));          
             System.out.println("---------------------------------------------\n");
 
         } catch (IOException e) {
