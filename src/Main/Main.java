@@ -144,7 +144,7 @@ public class Main {
             System.out.println("   (2017 - 2018): " + average2017And2018);
             System.out.println("   (2018 - 2019): " + average2018And2019);
             System.out.println("Média do período: " + ((average2017And2018 + average2018And2019)/2));
-            System.out.println("\n  Pandemia(2020-2022):");
+            System.out.println("\n5.Pandemia(2020-2022):");
             System.out.println("   (2020 - 2021): " + average2020And2021);
             System.out.println("   (2021 - 2022): " + average2021And2022);
             System.out.println("Média do período: " + ((average2020And2021 + average2021And2022)/2));          
