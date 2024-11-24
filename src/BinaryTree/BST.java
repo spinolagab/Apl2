@@ -2,7 +2,7 @@ package BinaryTree;
 
 import entities.PIBData;
 
-public class BST extends Tree {
+public class BST extends BinaryTree {
 
     // 'root' é a raiz da árvore para árvore com apenas um nó
     public BST(Node root) {

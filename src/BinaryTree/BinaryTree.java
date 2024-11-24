@@ -1,15 +1,15 @@
 package BinaryTree;
 
-public class Tree {
+public class BinaryTree {
     private Node root;
 
     //Arvore com pelo menos a raiz
-    public Tree(Node root) {
+    public BinaryTree(Node root) {
         this.root = root;
     }
 
     //arvore vazia
-    public Tree() {
+    public BinaryTree() {
         this(null);
     }
     
@@ -90,16 +90,6 @@ public class Tree {
     public String postOrderTraversal(){
         return postOrderTraversal(root);
     }
-    
-//    /*Por nivel*/
-//   public void levelOrderTraversal(){
-//      Queue<Node> q = new LinkedList<>();
-//      q.add(root);
-//      while(!q.isEmpty()) {
-//          if(q.peek().getLeft() != null )q.add(q.peek().getLeft());
-//          if(q.peek().getRight() != null )q.add(q.peek().getRight());
-//          System.out.print(q.poll().getData());
-//   }
-//  }
+
     
 }
