@@ -13,21 +13,21 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class Main {
-    private static final HashMap<String, Integer> meses = new HashMap<>();
+    private static final HashMap<String, Integer> months = new HashMap<>();
 
     static {
-        meses.put("Janeiro", 1);
-        meses.put("Fevereiro", 2);
-        meses.put("Março", 3);
-        meses.put("Abril", 4);
-        meses.put("Maio", 5);
-        meses.put("Junho", 6);
-        meses.put("Julho", 7);
-        meses.put("Agosto", 8);
-        meses.put("Setembro", 9);
-        meses.put("Outubro", 10);
-        meses.put("Novembro", 11);
-        meses.put("Dezembro", 12);
+        months.put("Janeiro", 1);
+        months.put("Fevereiro", 2);
+        months.put("Março", 3);
+        months.put("Abril", 4);
+        months.put("Maio", 5);
+        months.put("Junho", 6);
+        months.put("Julho", 7);
+        months.put("Agosto", 8);
+        months.put("Setembro", 9);
+        months.put("Outubro", 10);
+        months.put("Novembro", 11);
+        months.put("Dezembro", 12);
     }
 
 
@@ -48,12 +48,12 @@ public class Main {
             while (line != null) {
                 // Divide a linha em colunas
                 String[] vect = line.split(",");
-                String mes = vect[0];
-                Double ano = Double.parseDouble(vect[1]);
-                Double agropecuaria = Double.parseDouble(vect[2]);
+                String month = vect[0];
+                Double year = Double.parseDouble(vect[1]);
+                Double tax = Double.parseDouble(vect[2]);
 
                 // Cria um objeto PIBData com apenas os dados necessários e adiciona à lista
-                PIBData data = new PIBData(meses.get(mes), ano, agropecuaria);
+                PIBData data = new PIBData(months.get(month), year, tax);
                 list.add(data);
 
                 line = br.readLine(); // Lê a próxima linha
@@ -67,7 +67,7 @@ public class Main {
             }
 
             //Embaralhando lista original
-            List<PIBData> subListA = list.subList(0, 87);
+                List<PIBData> subListA = list.subList(0, 87);
             List<PIBData> subListB = list.subList(87, 174);
             List<PIBData> subListC = list.subList(174, list.size());
             List<PIBData> unsortedList = new ArrayList<>();

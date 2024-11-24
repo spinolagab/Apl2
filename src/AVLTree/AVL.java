@@ -13,25 +13,13 @@ public class AVL extends BST {
     public AVL() {
     }
 
+    //Retorna se um noh corresponde a raiz da AVL
     private boolean nodeIsRoot(AVLNode node){
         return (AVLNode)getRoot() == node;
     }
-    
-    // 'node' é o nó que deseja-se encontrar o fator de balanceamento.
-    // Os valores válidos para preservar a AVL são: [-1, 0, 1]
-    // -1 -> Subárvore esquerda é maior.
-    //  0 -> Árvore esquerda tem mesmo tamanho da árvore direita.
-    //  1 -> Subárvore direita é maior.
-    int getBalance(AVLNode node) {
-        if (node == null)
-            return 0;
 
-        int leftHeight = node.getLeft() != null ? node.getLeft().getHeight() : -1;
-        int rightHeight = node.getRight() != null ? node.getRight().getHeight() : -1;
 
-        return rightHeight - leftHeight;
-    }
-
+    //Realiza uma rotação simples à direita
     // 'node' é o nó a ser rotacionado.
     // 'alpha' é raiz de uma subárvore.
     // 'newRoot' é a nova raiz da subárvore já rotacionada. 
@@ -46,6 +34,7 @@ public class AVL extends BST {
         return newRoot;
     }
 
+    //Realiza uma rotação simples à esquerda
     // 'node' é o nó a ser rotacionado.
     // 'alpha' é raiz de uma subárvore.
     // 'newRoot' é a nova raiz da subárvore já rotacionada. 
@@ -60,6 +49,7 @@ public class AVL extends BST {
         return newRoot;
     }
 
+    //Insere um nó na árvore, usando a taxa como critério, respeitando o balanceamento
     // 'node' é o nó na árvore, inicialmente o root até virar folha.
     // 'valueToInsert' é o novo valor a ser inserido.
     // Retorna o nó inserido.
@@ -85,10 +75,11 @@ public class AVL extends BST {
         } else 
             return node;
 
-        int balance = getBalance(node);
+        node.setFb();
+        int balance = node.getFb();
 
         if (balance > 1 ){
-          if (getBalance(right) < 0){ //RL
+          if (right.getFb() < 0){ //RL
               AVLNode rotatedRight = rotateRight(right);
               node.setRight(rotatedRight);
               return rotateLeft(node);
@@ -100,7 +91,7 @@ public class AVL extends BST {
         }
 
         if (balance < -1){
-          if (getBalance(left) > 0){ //LR
+          if (left.getFb() > 0){ //LR
               AVLNode rotatedLeft = rotateLeft(left);
               node.setLeft(rotatedLeft);
               return rotateRight(node);
@@ -114,6 +105,7 @@ public class AVL extends BST {
     }
 
 
+    //Insere um noh na árvore, usando a data como critério, respeitando o balanceamento
     // 'node' é o nó na árvore, inicialmente o root até virar folha.
     // 'valueToInsert' é o novo valor a ser inserido.
     // Retorna o nó inserido.
@@ -147,10 +139,11 @@ public class AVL extends BST {
             } else return node;
         }
 
-        int balance = getBalance(node);
+        node.setFb();
+        int balance = node.getFb();
 
         if (balance > 1 ){
-          if (getBalance(right) < 0){ //RL
+          if (right.getFb() < 0){ //RL
               AVLNode rotatedRight = rotateRight(right);
               node.setRight(rotatedRight);
               return rotateLeft(node);
@@ -162,7 +155,7 @@ public class AVL extends BST {
         }
 
         if (balance < -1){
-          if (getBalance(left) > 0){ //LR
+          if (left.getFb() > 0){ //LR
               AVLNode rotatedLeft = rotateLeft(left);
               node.setLeft(rotatedLeft);
               return rotateRight(node);
@@ -175,87 +168,92 @@ public class AVL extends BST {
         return node;
     }
 
+    //Chamada pública, que recebe apenas o valor a ser inserido
     public void insertBalancedAsTax(PIBData valueToInsert){
 
         insertBalancedAsTax((AVLNode) this.getRoot(), valueToInsert);
     }
 
+    //Chamada pública, que recebe apenas o valor a ser inserido
     public void insertBalancedAsDate (PIBData valueToInsert){
 
         insertBalancedAsDate((AVLNode) this.getRoot(), valueToInsert);
     }
-    
+
+    //Remove um nó com base na chave passada, respeitando o balanceamento
     // 'root' é a raiz da árvore AVL a remover um valor.
     // 'valueToRemove' é a chave do nó a ser removido.
     // retorna a raiz após a inserção e ajustes para preservar as propriedades de AVL.
-    private AVLNode deleteNode(AVLNode root, double valueToRemove) {
-        if (root == null)
-            return root;
+    private AVLNode deleteNode(AVLNode node, double valueToRemove) {
+        if (node == null)
+            return node;
 
-        double rootValue = root.getData().getTax();
-        AVLNode left = (AVLNode) root.getLeft();
-        AVLNode right = (AVLNode) root.getRight();
+        double nodeValue = node.getData().getTax();
+        AVLNode left = (AVLNode) node.getLeft();
+        AVLNode right = (AVLNode) node.getRight();
 
-        if (valueToRemove < rootValue){
+        if (valueToRemove < nodeValue){
             AVLNode newLeft = deleteNode(left, valueToRemove);
-            root.setLeft(newLeft);
-        } else if (valueToRemove > rootValue){
+            node.setLeft(newLeft);
+        } else if (valueToRemove > nodeValue){
             AVLNode newRight = deleteNode(right, valueToRemove);
-            root.setRight(newRight);
+            node.setRight(newRight);
         } else {
-            if (root.getDegree() < 2) {
+            if (node.getDegree() < 2) {
                 AVLNode temp;
                 if (left == null)
                     temp = right;
                 else
                     temp = left;
 
-                root = temp;
+                node = temp;
 
             } else {
-                AVLNode temp = (AVLNode) getSucessor(root);
+                AVLNode temp = (AVLNode) getSucessor(node);
                 PIBData tempValue = temp.getData();
 
-                root.setData(tempValue);
+                node.setData(tempValue);
 
                 AVLNode newRight = deleteNode(right, tempValue.getTax());
-                root.setRight(newRight);
+                node.setRight(newRight);
             }
         }
 
-        if (root == null)
-            return root;
+        if (node == null)
+            return node;
 
-        int balance = getBalance(root);
+        node.setFb();
+        int balance = node.getFb();
 
-        left = (AVLNode) root.getLeft();
-        right = (AVLNode) root.getRight();
+        left = (AVLNode) node.getLeft();
+        right = (AVLNode) node.getRight();
 
         if (balance > 1 ){
-          if (getBalance(right) < 0){ //RL
+          if (right.getFb() < 0){ //RL
               AVLNode rotatedRight = rotateRight(right);
-              root.setRight(rotatedRight);
-              return rotateLeft(root);
+              node.setRight(rotatedRight);
+              return rotateLeft(node);
           }
 
           else
-            return rotateLeft(root); //LL
+            return rotateLeft(node); //LL
 
         }
 
         if (balance < -1){
-          if (getBalance(left) > 0){ //LR
+          if (left.getFb() > 0){ //LR
               AVLNode rotatedLeft = rotateLeft(left);
-              root.setLeft(rotatedLeft);
-              return rotateRight(root);
+              node.setLeft(rotatedLeft);
+              return rotateRight(node);
           }
 
          else //RR
-              return rotateRight(root);
+              return rotateRight(node);
         }
-    return root;
+    return node;
     }
 
+    //Chamada pública, que recebe apenas o valor a ser removido
     public AVLNode deleteBalanced(double valueToRemove) {
         return deleteNode((AVLNode) this.getRoot(), valueToRemove);
     }

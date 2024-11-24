@@ -14,6 +14,7 @@ public class BST extends BinaryTree {
         this(null);
     }
 
+    //Insere um nó na árvore, usando a taxa como critério
     // 'root' é a raiz da árvore
     // 'key' é o valor do node
     private Node insertAsTax(Node root, PIBData pibNode) {
@@ -40,6 +41,7 @@ public class BST extends BinaryTree {
 
     }
 
+    //Insere um noh na árvore, usando a data como critério
     // 'root' é a raiz da árvore
     // 'key' é o valor do node
     private Node insertAsDate(Node root, PIBData pibNode) {
@@ -77,15 +79,19 @@ public class BST extends BinaryTree {
         return root;
     }
 
+    //Chamada pública, que recebe apenas o dado a ser inserido
     // 'pibNode' é o valor do node
     public void insertAsTax(PIBData pibNode) {
         insertAsTax(this.getRoot(), pibNode);
     }
 
+    //Chamada pública, que recebe apenas o dado a ser inserido
+    // 'pibNode' é o valor do node
     public  void insertAsDate(PIBData pibNode) {
         insertAsDate(this.getRoot(), pibNode);
     }
 
+    //Obtém o menor valor na subárvore direita de um nó
     // 'root' é a raiz da árvore
     // 'curr' é o node atual a partir da subárvore à direita
     protected Node getSucessor(Node root) {
@@ -94,6 +100,7 @@ public class BST extends BinaryTree {
         return curr;
     }
 
+    //Remove um nó com base na chave passada
     // 'root' é a raiz da árvore
     // 'key' é o valor do node
     // 'suc' é o node sucessor
@@ -112,12 +119,14 @@ public class BST extends BinaryTree {
         }
         return root;
     }
-
+    
+    //Chamada pública, que recebe apenas o dado a ser removido
     // 'key' é o valor do node
     public Node remove (double key) {
         return remove(this.getRoot(), key);
     }
 
+    //Retorna um nó com base na chave passada ou null se não encontrar
     // 'root' é a raiz da árvore
     // 'key' é o valor do node
     private Node search(Node root, double key) {
@@ -126,13 +135,16 @@ public class BST extends BinaryTree {
         else if (key > root.getData().getTax()) root = search(root.getRight(), key);
         return root;
     }
-
+    
+    
+    //Chamada pública, que recebe apenas o dado a ser procurado
     // 'key' é o valor do node
     public Node search (double key) {
         return search(this.getRoot(), key);
     }
 
-    //'root' é a raiz da sub-árvore
+    //Retorna a somatória das taxas de um ano
+    //'root' é a raiz da subárvore
     // 'year' é o ano procurado
     // 'total' é o total acumulado
     private double getTotalFromYear(Node root, double year) {
@@ -144,13 +156,14 @@ public class BST extends BinaryTree {
                     + getTotalFromYear(root.getRight(),year);
     }
 
+    //Retorna a média do ano passado
     //'year' é o ano que terá a média calculada
     public double getAverageFromYear(double year) {
         return getTotalFromYear(this.getRoot(), year) / 12.0;
     }
 
 
-
+    //Retorna a maior variação percentual negativa
     public double getMaxDecrease(){
        Node aux = getRoot();
        while(aux.getLeft() != null) aux = aux.getLeft();
@@ -158,6 +171,7 @@ public class BST extends BinaryTree {
 
     }
 
+    //Retorna a maior variação percentual positiva
     public double getMaxIncrease(){
         Node aux = getRoot();
         while(aux.getRight() != null) aux = aux.getRight();
@@ -165,6 +179,7 @@ public class BST extends BinaryTree {
 
     }
 
+    //Verifica se uma árvore binaria baseada em taxas corresponde a uma BST
     // 'root' é a raiz da árvore
     private boolean isTaxBST(Node root) {
         if (root == null) return true;
@@ -174,9 +189,12 @@ public class BST extends BinaryTree {
         } else return isTaxBST(root.getLeft()) && isTaxBST(root.getRight());
     }
 
+    //Chamada pública, que não necessita de parametros
     public boolean isTaxBST() {
         return isTaxBST(this.getRoot());
     }
+    
+    //Verifica se uma árvore binaria baseada em datas corresponde a uma BST
     // 'root' é a raiz da árvore
     private boolean isDateBST(Node root) {
         if (root == null) return true;
@@ -191,6 +209,7 @@ public class BST extends BinaryTree {
             return isDateBST(root.getLeft()) && isDateBST(root.getRight());
     }
 
+    //Chamada pública, que não necessita de parâmetros
     public boolean isDateBST() {
         return isDateBST(this.getRoot());
     }
