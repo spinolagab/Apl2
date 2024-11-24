@@ -2,42 +2,42 @@ package entities;
 
 public class PIBData {
 
-    private int mes;
-    private Double ano;
-    private Double agropecuaria;
+    private int month;
+    private Double year;
+    private Double tax;
 
-    public PIBData(int mes, Double ano, Double agropecuaria) {
-        this.mes = mes;
-        this.ano = ano;
-        this.agropecuaria = agropecuaria;
+    public PIBData(int month, Double year, Double tax) {
+        this.month = month;
+        this.year = year;
+        this.tax = tax;
     }
 
-    public int getMes() {
-        return mes;
+    public int getMonth() {
+        return month;
     }
 
-    public void setMes(int mes) {
-        this.mes = mes;
+    public void setMonth(int month) {
+        this.month = month;
     }
 
-    public Double getAno() {
-        return ano;
+    public Double getYear() {
+        return year;
     }
 
-    public void setAno(Double ano) {
-        this.ano = ano;
+    public void setYear(Double year) {
+        this.year = year;
     }
 
-    public Double getAgropecuaria() {
-        return agropecuaria;
+    public Double getTax() {
+        return tax;
     }
 
-    public void setAgropecuaria(Double agropecuaria) {
-        this.agropecuaria = agropecuaria;
+    public void setTax(Double tax) {
+        this.tax = tax;
     }
 
     @Override
     public String toString() {
-        return "PIBData [mes=" + mes + ", ano=" + ano + ", agropecuaria=" + agropecuaria + "]";
+        return "PIBData [mes=" + month + ", ano=" + year + ", agropecuaria=" + tax + "]";
     }
 }

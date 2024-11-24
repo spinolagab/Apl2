@@ -32,9 +32,9 @@ public class Main {
 
 
     public static void main(String[] args) {
-        AVL avlAgro = new AVL();
+        AVL avlTax = new AVL();
         AVL avlDate = new AVL();
-        BST bstAgro = new BST();
+        BST bstTax = new BST();
         BST bstDate = new BST();
         String path = "./src/readCSV/08-2024_tabelas_PIB_mensal_Mensal04.csv";
 
@@ -61,8 +61,8 @@ public class Main {
 
             //Inserindo os elementos nas árvores cuja chave é o crescimento no setor agropecuário
             for (PIBData data : list) {
-                avlAgro.insertBalancedAsAgro(data);
-                bstAgro.insertAsAgro(data);
+                avlTax.insertBalancedAsTax(data);
+                bstTax.insertAsTax(data);
 
             }
 
@@ -96,8 +96,8 @@ public class Main {
 
 
             System.out.println("-----------INFORMAÇÕES INICIAIS-----------");
-            System.out.println("AVL para dados de agropecuária é uma BST? " + (avlAgro.isAgroBST() ? "SIM!" : "NÃO!"));
-            System.out.println("BST para dados de agropecuária é uma BST? " + (bstAgro.isAgroBST() ? "SIM!" : "NÃO!"));
+            System.out.println("AVL para dados de agropecuária é uma BST? " + (avlTax.isTaxBST() ? "SIM!" : "NÃO!"));
+            System.out.println("BST para dados de agropecuária é uma BST? " + (bstTax.isTaxBST() ? "SIM!" : "NÃO!"));
             System.out.println("AVL para dados de data(mês/ano) é uma BST? " + (avlDate.isDateBST() ? "SIM!" : "NÃO!"));
             System.out.println("BST para dados de data(mês/ano) é uma BST? " + (bstDate.isDateBST() ? "SIM!" : "NÃO!"));
 
@@ -107,8 +107,8 @@ public class Main {
             System.out.println("Altura mínima = floor(log2(n)) = " + Math.floor(Math.log10(list.size())/Math.log10(2)));
             System.out.println("Altura máxima = n-1: " + (list.size()-1));
 
-            System.out.println("\nAltura da BST de Agro gerada: " + bstAgro.getHeight());
-            System.out.println("Altura da AVL de Agro gerada: " + avlAgro.getHeight());
+            System.out.println("\nAltura da BST de Agro gerada: " + bstTax.getHeight());
+            System.out.println("Altura da AVL de Agro gerada: " + avlTax.getHeight());
 
             System.out.println("\nAltura da BST de Datas gerada: " + bstDate.getHeight());
             System.out.println("Altura da AVL de Datas gerada: " + avlDate.getHeight());
@@ -123,13 +123,13 @@ public class Main {
             System.out.println("2.Menor crescimento médio anual encontrado: (" +(averageDiffFromYears.lastEntry().getValue()-1) +" e "+averageDiffFromYears.lastEntry().getValue() + ") " + averageDiffFromYears.lastKey() );
 
             //Questao 3. Descobrir valores discrepantes
-            double maxMonthDecrease = avlAgro.getMaxDecrease();
-            double yearFromMaxMonthDecrease = avlAgro.search(maxMonthDecrease).getData().getAno();
-            int monthFromMaxDecrease = avlAgro.search(maxMonthDecrease).getData().getMes();
+            double maxMonthDecrease = avlTax.getMaxDecrease();
+            double yearFromMaxMonthDecrease = avlTax.search(maxMonthDecrease).getData().getYear();
+            int monthFromMaxDecrease = avlTax.search(maxMonthDecrease).getData().getMonth();
 
-            double maxMonthIncrease = avlAgro.getMaxIncrease();
-            double yearFromMaxMonthIncrease = avlAgro.search(maxMonthIncrease).getData().getAno();
-            int monthFromMaxIncrease = avlAgro.search(maxMonthIncrease).getData().getMes();
+            double maxMonthIncrease = avlTax.getMaxIncrease();
+            double yearFromMaxMonthIncrease = avlTax.search(maxMonthIncrease).getData().getYear();
+            int monthFromMaxIncrease = avlTax.search(maxMonthIncrease).getData().getMonth();
 
             System.out.println("3.Menor média mensal encontrada: (" +monthFromMaxDecrease +"/"+yearFromMaxMonthDecrease + ") " + maxMonthDecrease );
             System.out.println("  Maior média mensal encontrada: (" +monthFromMaxIncrease +"/"+yearFromMaxMonthIncrease + ") " + maxMonthIncrease );

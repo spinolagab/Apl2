@@ -63,7 +63,7 @@ public class AVL extends BST {
     // 'node' é o nó na árvore, inicialmente o root até virar folha.
     // 'valueToInsert' é o novo valor a ser inserido.
     // Retorna o nó inserido.
-    private AVLNode insertBalancedAsAgro(AVLNode node, PIBData valueToInsert) {
+    private AVLNode insertBalancedAsTax(AVLNode node, PIBData valueToInsert) {
         if (node == null){
             AVLNode newNode = new AVLNode(valueToInsert);
             if(isEmpty()) setRoot(newNode);
@@ -72,14 +72,14 @@ public class AVL extends BST {
 
         AVLNode left = (AVLNode) node.getLeft();
         AVLNode right = (AVLNode) node.getRight();
-        double nodeData = node.getData().getAgropecuaria();
+        double nodeData = node.getData().getTax();
 
-        if (valueToInsert.getAgropecuaria() <  nodeData){
-          AVLNode newLeft = insertBalancedAsAgro(left, valueToInsert);
+        if (valueToInsert.getTax() <  nodeData){
+          AVLNode newLeft = insertBalancedAsTax(left, valueToInsert);
           node.setLeft(newLeft);
 
-        } else if (valueToInsert.getAgropecuaria() >  nodeData){
-            AVLNode newRight = insertBalancedAsAgro(right, valueToInsert);
+        } else if (valueToInsert.getTax() >  nodeData){
+            AVLNode newRight = insertBalancedAsTax(right, valueToInsert);
             node.setRight(newRight);
 
         } else 
@@ -126,22 +126,22 @@ public class AVL extends BST {
 
         AVLNode left = (AVLNode) node.getLeft();
         AVLNode right = (AVLNode) node.getRight();
-        double nodeYear = node.getData().getAno();
+        double nodeYear = node.getData().getYear();
 
-        if (valueToInsert.getAno() <  nodeYear){
+        if (valueToInsert.getYear() <  nodeYear){
           AVLNode newLeft = insertBalancedAsDate(left, valueToInsert);
           node.setLeft(newLeft);
 
-        } else if (valueToInsert.getAno() >  nodeYear){
+        } else if (valueToInsert.getYear() >  nodeYear){
             AVLNode newRight = insertBalancedAsDate(right, valueToInsert);
             node.setRight(newRight);
 
         } else {
-            int nodeMonth = node.getData().getMes();
-            if(valueToInsert.getMes() < nodeMonth){
+            int nodeMonth = node.getData().getMonth();
+            if(valueToInsert.getMonth() < nodeMonth){
                 AVLNode newLeft = insertBalancedAsDate(left, valueToInsert);
                 node.setLeft(newLeft);
-            } else if(valueToInsert.getMes() > nodeMonth){
+            } else if(valueToInsert.getMonth() > nodeMonth){
                 AVLNode newRight = insertBalancedAsDate(right, valueToInsert);
                 node.setRight(newRight);
             } else return node;
@@ -175,9 +175,9 @@ public class AVL extends BST {
         return node;
     }
 
-    public void insertBalancedAsAgro (PIBData valueToInsert){
+    public void insertBalancedAsTax(PIBData valueToInsert){
 
-        insertBalancedAsAgro((AVLNode) this.getRoot(), valueToInsert);
+        insertBalancedAsTax((AVLNode) this.getRoot(), valueToInsert);
     }
 
     public void insertBalancedAsDate (PIBData valueToInsert){
@@ -192,7 +192,7 @@ public class AVL extends BST {
         if (root == null)
             return root;
 
-        double rootValue = root.getData().getAgropecuaria();
+        double rootValue = root.getData().getTax();
         AVLNode left = (AVLNode) root.getLeft();
         AVLNode right = (AVLNode) root.getRight();
 
@@ -218,7 +218,7 @@ public class AVL extends BST {
 
                 root.setData(tempValue);
 
-                AVLNode newRight = deleteNode(right, tempValue.getAgropecuaria());
+                AVLNode newRight = deleteNode(right, tempValue.getTax());
                 root.setRight(newRight);
             }
         }

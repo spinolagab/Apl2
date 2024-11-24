@@ -1,10 +1,5 @@
 package BTree;
 
-import entities.PIBData;
-
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class Tree {
     private Node root;
 
@@ -56,7 +51,7 @@ public class Tree {
     private String inOrderTraversal(Node root){
         if(root == null) return "";
         else return "" + inOrderTraversal(root.getLeft()) +
-                    " " + root.getData().getAgropecuaria() +
+                    " " + root.getData().getTax() +
                     " " + inOrderTraversal(root.getRight());
         
     }
