@@ -1,6 +1,6 @@
 package AVLTree;
 
-import BTree.Node;
+import BinaryTree.Node;
 import entities.PIBData;
 
 public class AVLNode extends Node {

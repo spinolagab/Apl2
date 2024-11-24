@@ -1,6 +1,6 @@
 package Main;
 
-import BTree.BST;
+import BinaryTree.BST;
 import AVLTree.AVL;
 import entities.PIBData;
 

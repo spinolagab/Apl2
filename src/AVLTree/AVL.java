@@ -1,7 +1,7 @@
 package AVLTree;
 
 
-import BTree.BST;
+import BinaryTree.BST;
 import entities.PIBData;
 
 public class AVL extends BST {
