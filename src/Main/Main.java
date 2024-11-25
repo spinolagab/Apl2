@@ -107,8 +107,8 @@ public class Main {
             System.out.println("Altura mínima = floor(log2(n)) = " + Math.floor(Math.log10(list.size())/Math.log10(2)));
             System.out.println("Altura máxima = n-1: " + (list.size()-1));
 
-            System.out.println("\nAltura da BST de Agro gerada: " + bstTax.getHeight());
-            System.out.println("Altura da AVL de Agro gerada: " + avlTax.getHeight());
+            System.out.println("\nAltura da BST de taxas gerada: " + bstTax.getHeight());
+            System.out.println("Altura da AVL de taxas gerada: " + avlTax.getHeight());
 
             System.out.println("\nAltura da BST de Datas gerada: " + bstDate.getHeight());
             System.out.println("Altura da AVL de Datas gerada: " + avlDate.getHeight());
@@ -117,10 +117,10 @@ public class Main {
 
             System.out.println("-----------PERGUNTAS EXPLORATÓRIAS-----------");
             //Questao 1. Descobrir maior média anual
-            System.out.println("1.Maior crescimento médio anual encontrado: (" +(averageDiffFromYears.firstEntry().getValue()-1) +" e "+averageDiffFromYears.firstEntry().getValue() + ") " + averageDiffFromYears.firstKey() );
+            System.out.println("1.Maior crescimento médio anual encontrado: (" +(averageDiffFromYears.lastEntry().getValue()-1) +" e "+averageDiffFromYears.lastEntry().getValue() + ") " + averageDiffFromYears.lastKey() );
 
             //Questao 2. Descobrir menor média anual
-            System.out.println("2.Menor crescimento médio anual encontrado: (" +(averageDiffFromYears.lastEntry().getValue()-1) +" e "+averageDiffFromYears.lastEntry().getValue() + ") " + averageDiffFromYears.lastKey() );
+            System.out.println("2.Menor crescimento médio anual encontrado: (" +(averageDiffFromYears.firstEntry().getValue()-1) +" e "+averageDiffFromYears.firstEntry().getValue() + ") " + averageDiffFromYears.firstKey() );
 
             //Questao 3. Descobrir valores discrepantes
             double maxMonthDecrease = avlTax.getMaxDecrease();

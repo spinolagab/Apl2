@@ -13,7 +13,7 @@ public class AVL extends BST {
     public AVL() {
     }
 
-    //Retorna se um noh corresponde a raiz da AVL
+    //Retorna se um nó corresponde a raiz da AVL
     private boolean nodeIsRoot(AVLNode node){
         return (AVLNode)getRoot() == node;
     }
